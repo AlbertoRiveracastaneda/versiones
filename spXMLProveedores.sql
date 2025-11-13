@@ -44,7 +44,8 @@ BEGIN
 			@DiasVigenciaFactura	INT,
 			@FechaTimbrado			DATETIME,
 			@WAsignaSucursal		BIT,
-			@Estatus				VARCHAR(50)
+			@Estatus				VARCHAR(50),
+			@NuevaVariable			varchar(200)
 
 	DECLARE @Detalle TABLE(Renglon					INT IDENTITY(1, 1),
 							ClaveProdServ			VARCHAR(20),
@@ -422,3 +423,4 @@ BEGIN
 RETURN
 END
 GO
+
