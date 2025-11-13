@@ -1,0 +1,109 @@
+IF EXISTS (SELECT * FROM SYSOBJECTS WHERE OBJECT_ID('dbo.Laminas') and type = 'V')
+drop view dbo.Laminas
+go
+create view dbo.Laminas
+as
+select 
+A.sucursal,
+d.SucursalNombre,
+E.Categoria,
+E.Clave as Articulo,
+e.Descripcion,
+SUM(b.Cantidad),
+e.Unidad
+from venta a
+left outer join VentaD b on A.ID = B.id
+left outer join Movtipo c on A.mov = C.mov and C.clave IN ('VTAS.F','VTAS.FG')
+left outer join Sucursal d on d.Sucursal = a.sucursal
+Left outer join Art e on B.aRTICULO = A.articulo
+
+
+end
+
+select * 
+from dbo.Laminas 
+where Sucursal = 7
+and FechaEmision between '01/04/20219' and '05/04/2019'
+and Articulo in ('LAM-ZA3R2.44C32I','LAM-ZA3R3.05C32N','LAM-ZA3R3.66C32I','LAM-ZA3R3.66C32N','LAM-ZA3R4.27C32I','LAM-ZA4R4.27C26N')
+ 
+ 
+ IF EXISTS (SELECT * FROM SYSOBJECTS WHERE OBJECT_ID('dbo.Laminas') and type = 'V')
+drop view dbo.Laminas
+go
+create view dbo.Laminas
+as
+select 
+A.sucursal,
+d.SucursalNombre As Nombre,
+E.Categoria,
+E.Clave as Articulo,
+e.Descripcion,
+SUM(b.Cantidad) as Cantidad,
+e.Unidad
+
+from venta a
+left outer join VentaD b on A.ID = B.id
+left outer join Movtipo c on A.mov = C.mov and C.clave IN ('VTAS.F','VTAS.FG')
+left outer join Sucursal d on d.Sucursal = a.sucursal
+Left outer join Art e on B.aRTICULO = A.articulo
+
+
+
+end
+
+Select Sucursal, Nombre, Categoria, Cantidad, Unidad* from dbo.Laminas where unidad='KG' group by a.Sucursal
+ 
+ 
+ 
+ select Estado,Estatus 
+   from Sucursal 
+   where Tipo = 'RETAIL'
+    AND Estatus in ('Alta','Baja')
+	Group By Estado
+ 
+ 
+--------------------------
+--- Usando la base de datos ***LaFerre** 
+--- Crea una consulta de los primeros 10 movimientos Factura Electronica concluidos y no timbrardos durante el primero 
+--de abril de 2019 y al cinco de abril de 2019  ordenados por sucursal y fecha de registro
+---	El reporte debe contener:
+---		ID
+---		Mov
+---		MovID
+---		Fecha registro del movimiento
+---		Fecha timbrado del movimiento
+---		Cliente
+---		RFC del cliente
+---		Importe con iva
+---		Sucursal
+---		Nombre de la sucursal
+---		Usuario que registro el movimiento
+---		Nombre del usuario
+---		CFDTimbrado
+---		Documento XML del intento de timbrado
+---		
+---	Tablas necesarias (Venta, Sucursal, Usuario, CFD)
+---
+--------------------------
+
+select  top 10 a.ID
+a.Mov,
+a.MovID,
+a.FechaEmision as FechaRegistro,
+d.FechaTimbrado as Fechatimbrado,
+a.Cliente,
+d.RFC,
+d.Importe+d.Impuestos as ImporteconIVA,
+b.Sucursal,
+b.SucursalNombre as NombreSucursal,
+a.Usuario,
+c.UsuarioNombre,
+d.CFDTimbrado,
+d.XML as IntentoTimbrado,
+  from Venta a
+  left outer join Sucursal b with (nolock) on a.Sucursal = b.Sucursal
+  Left outer join Usuario c with (nolock) on A.Usuario = b.usuario
+  Left outer join CFD d with (nolock) on A.ID = d.ID
+where FechaTimbrado between '01/04/2025' and '05/04/2025'
+and d.Estatus in ('CONCLUIDO','NOTIMBRADO')
+order by Sucursal, FechaRegistro
