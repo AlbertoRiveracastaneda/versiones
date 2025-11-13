@@ -62,29 +62,6 @@ Select Sucursal, Nombre, Categoria, Cantidad, Unidad* from dbo.Laminas where uni
 	Group By Estado
  
  
---------------------------
---- Usando la base de datos ***LaFerre** 
---- Crea una consulta de los primeros 10 movimientos Factura Electronica concluidos y no timbrardos durante el primero 
---de abril de 2019 y al cinco de abril de 2019  ordenados por sucursal y fecha de registro
----	El reporte debe contener:
----		ID
----		Mov
----		MovID
----		Fecha registro del movimiento
----		Fecha timbrado del movimiento
----		Cliente
----		RFC del cliente
----		Importe con iva
----		Sucursal
----		Nombre de la sucursal
----		Usuario que registro el movimiento
----		Nombre del usuario
----		CFDTimbrado
----		Documento XML del intento de timbrado
----		
----	Tablas necesarias (Venta, Sucursal, Usuario, CFD)
----
---------------------------
 
 select  top 10 a.ID
 a.Mov,
